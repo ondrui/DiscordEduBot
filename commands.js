@@ -56,13 +56,15 @@ function showQuery(message, studentsQuery) {
 
 function helpNextStudent(message, queryCell) {
   let helpChannel = message.member.voice.channel;
-  let student = queryCell.student;
-  
-  for (member of message.member.voice.channel.members.values()) {
+  for (member of helpChannel.members.values()) {
     if (checkIfTeacher(member)) continue;
     member.voice.setChannel( getMainVoiceChannel(message) );
   }
-
+  if (queryCell == null) {
+    return message.reply("Очередь пуста")
+              .catch(console.error);
+  }
+  let student = queryCell.student;
   student.voice.setChannel(helpChannel, 'Подошла ваша очередь');
 }
 
